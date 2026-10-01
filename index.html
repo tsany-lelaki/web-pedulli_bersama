@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PeduliKita - Donasi Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#0c4a30;--g7:#12764a;--g5:#1f9d63;--g1:#e6f5ec;--g0:#f5fbf7;--ink:#17261e;--mute:#5d6e64;--line:#dbe8e0;--warn:#b7791f;--err:#c0392b}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;line-height:1.2;color:var(--g9)}
+button{font:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--g5);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:var(--g9);background:none;border:0;display:flex;align-items:center;gap:8px}
+.logo i{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--g7);color:#fff;font-style:normal;font-size:1rem}
+.links{display:flex;align-items:center;gap:6px}
+.links button.l{background:none;border:0;padding:8px 14px;border-radius:99px;color:var(--mute);font-weight:600}
+.links button.l:hover,.links button.l.on{background:var(--g1);color:var(--g9)}
+.btn{border:0;border-radius:99px;padding:11px 22px;font-weight:700;background:var(--g7);color:#fff;transition:.2s}
+.btn:hover{background:var(--g9);transform:translateY(-2px);box-shadow:0 8px 20px rgba(18,118,74,.3)}
+.btn.o{background:#fff;color:var(--g7);border:2px solid var(--g7)}
+.btn.o:hover{background:var(--g1);box-shadow:none}
+.btn.w{background:#fff;color:var(--g9)}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:42px;height:42px;font-size:1.3rem}
+section.page{display:none;padding:48px 0 72px;min-height:70vh}
+section.page.on{display:block}
+.hero{background:linear-gradient(135deg,var(--g9),var(--g7) 70%);color:#fff;padding:72px 0 0;overflow:hidden}
+.hero h1{color:#fff;font-size:clamp(2.1rem,5.5vw,3.8rem);max-width:15ch}
+.hero p{max-width:52ch;margin:18px 0 28px;color:#d6efe1;font-size:1.1rem}
+.hero .act{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.08)}
+.stat{padding:26px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:1.8rem;color:var(--g7)}
+.stat span{color:var(--mute);font-size:.9rem}
+h2.t{font-size:clamp(1.6rem,3.5vw,2.3rem);margin-bottom:8px}
+.sub{color:var(--mute);margin-bottom:28px;max-width:60ch}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+input,select,textarea{font:inherit;width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{border-color:var(--g5);outline:0;box-shadow:0 0 0 3px var(--g1)}
+.tools input{flex:1 1 240px;width:auto}.tools select{flex:0 1 200px;width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 18px rgba(12,74,48,.06);transition:.25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(12,74,48,.14)}
+.img{height:170px;display:grid;place-items:center;font-size:4.2rem;position:relative}
+.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tag{z-index:1;position:absolute;top:12px;left:12px;background:#fff;color:var(--g9);font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:99px}
+.cb{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cb h3{font-size:1.15rem}
+.by{color:var(--mute);font-size:.85rem}
+.bar{height:10px;background:var(--g1);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g5),var(--g7));border-radius:99px;transition:width .8s}
+.row{display:flex;justify-content:space-between;font-size:.88rem;color:var(--mute);gap:8px}
+.row b{color:var(--ink)}
+.btns{display:flex;gap:10px;margin-top:auto;padding-top:6px}
+.btns .btn{flex:1;padding:10px 12px;font-size:.9rem}
+.empty{grid-column:1/-1;text-align:center;padding:48px;color:var(--mute);background:var(--g0);border-radius:20px}
+.back{background:none;border:0;color:var(--g7);font-weight:700;margin-bottom:18px}
+.det{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start}
+.det .img{height:320px;border-radius:22px;font-size:7rem}
+.box{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 4px 18px rgba(12,74,48,.06)}
+.box .big{font-family:'Fraunces',serif;font-size:2rem;color:var(--g7)}
+.info{display:grid;gap:12px;margin:18px 0}
+.org{display:flex;gap:12px;align-items:center;background:var(--g0);border-radius:14px;padding:14px;margin:16px 0}
+.org i{width:44px;height:44px;border-radius:50%;background:var(--g7);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700}
+.form{max-width:680px;margin:0 auto}
+.f{margin-bottom:18px}
+.f label{display:block;font-weight:600;margin-bottom:6px;font-size:.92rem}
+.amts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.amts button{padding:13px 6px;border:1.5px solid var(--line);background:#fff;border-radius:12px;font-weight:700;color:var(--ink)}
+.amts button:hover{border-color:var(--g5)}
+.amts button.on{background:var(--g1);border-color:var(--g7);color:var(--g9)}
+.err{color:var(--err);font-size:.82rem;margin-top:4px;display:none}
+.bad input,.bad select,.bad textarea{border-color:var(--err)}
+.bad .err{display:block}
+.chk{display:flex;gap:10px;align-items:center}
+.chk input{width:auto}
+.note{background:#fff8e6;border:1px solid #f0d9a0;color:#7a5510;border-radius:12px;padding:12px 14px;font-size:.88rem;margin-bottom:18px}
+.sum{background:var(--g0);border:1px dashed var(--g5);border-radius:14px;padding:16px;margin-bottom:18px;display:none}
+.sum.on{display:block}
+.rcp{max-width:560px;margin:0 auto;text-align:center}
+.ok{width:70px;height:70px;border-radius:50%;background:var(--g1);color:var(--g7);display:grid;place-items:center;margin:0 auto 16px;font-size:2rem}
+.rcp dl{text-align:left;margin:22px 0}
+.rcp dl div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.rcp dt{color:var(--mute)}.rcp dd{font-weight:700;text-align:right}
+.st{display:inline-block;background:#fff3d6;color:var(--warn);padding:4px 14px;border-radius:99px;font-weight:700;font-size:.85rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.two p{margin-bottom:14px;color:var(--mute)}
+.use{display:grid;gap:12px}
+.use div{display:flex;justify-content:space-between;gap:12px;font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:20px}
+.step{text-align:center;padding:32px 22px}
+.step i{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--g7);color:#fff;font-style:normal;font-family:'Fraunces',serif;font-size:1.4rem;margin:0 auto 14px}
+.step p{color:var(--mute);margin-top:6px}
+footer{background:var(--g9);color:#bfe3cf;padding:28px 0;font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer button{background:none;border:0;color:#bfe3cf;text-decoration:underline}
+#toast{position:fixed;right:20px;bottom:20px;z-index:50;display:grid;gap:10px}
+.toast{background:var(--g9);color:#fff;padding:13px 20px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:in .3s}
+.toast.e{background:var(--err)}
+.ok.wait{background:#fff3d6;color:var(--warn)}.ok.fail,.ok.cancel,.ok.exp{background:#fdecea;color:var(--err)}
+.st.paid{background:var(--g1);color:var(--g7)}.st.fail,.st.cancel,.st.exp{background:#fdecea;color:var(--err)}
+.timer{background:var(--g0);border-radius:12px;padding:10px 14px;margin:14px 0;display:flex;justify-content:space-between}
+.timer b{font-family:'Fraunces',serif;color:var(--g7);font-size:1.15rem}
+.code{text-align:center;background:var(--g1);border:1.5px dashed var(--g5);border-radius:14px;padding:18px;margin:14px 0}
+.code span{display:block;color:var(--mute);font-size:.85rem}.code b{font-size:1.5rem;letter-spacing:2px;word-break:break-all}
+.qr{display:block;margin:14px auto;border:8px solid #fff;box-shadow:0 0 0 1px var(--line);border-radius:8px}
+.how{margin:8px 0 0 20px;color:var(--mute);font-size:.92rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{padding:8px 16px;border:1.5px solid var(--line);background:#fff;border-radius:99px;font-weight:600}
+.chips button.on{background:var(--g1);border-color:var(--g7);color:var(--g9)}
+.pbtn{display:grid;gap:10px;margin-top:18px}
+.spin{width:44px;height:44px;border:5px solid var(--g1);border-top-color:var(--g7);border-radius:50%;margin:30px auto 14px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hi{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line)}
+.hi small{display:block;color:var(--mute)}
+@keyframes in{from{transform:translateX(30px);opacity:0}}
+@media(max-width:820px){
+.burger{display:block}
+.links{display:none;position:absolute;top:66px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:14px 20px 20px;border-bottom:1px solid var(--line);box-shadow:0 12px 24px rgba(0,0,0,.08)}
+.links.open{display:flex}
+.links .btn{margin-top:6px}
+.stats{grid-template-columns:1fr 1fr}
+.stat:nth-child(2){border-right:0}
+.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.det,.two,.steps{grid-template-columns:1fr}
+.det .img{height:220px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav">
+<button class="logo" onclick="go('home')" aria-label="PeduliKita, ke Beranda"><i>♥</i>PeduliKita</button>
+<button class="burger" id="bg" aria-label="Buka menu" onclick="document.getElementById('lk').classList.toggle('open')">☰</button>
+<div class="links" id="lk">
+<button class="l" data-p="home" onclick="go('home')">Beranda</button>
+<button class="l" data-p="campaigns" onclick="go('campaigns')">Kampanye</button>
+<button class="l" data-p="about" onclick="go('about')">Tentang Kami</button>
+<button class="l" data-p="how" onclick="go('how')">Cara Berdonasi</button>
+<button class="btn" onclick="donate(null)">Donasi Sekarang</button>
+</div></div></nav>
+
+<main>
+<section class="page on" id="home">
+<div class="hero"><div class="wrap">
+<h1>Bersama Kita Bisa Membantu Lebih Banyak</h1>
+<p>PeduliKita mempertemukan orang baik dengan kampanye yang membutuhkan, dari pendidikan, kesehatan, sampai bantuan bencana. Pilih yang paling dekat di hatimu.</p>
+<div class="act"><button class="btn w" onclick="go('campaigns')">Lihat Kampanye</button><button class="btn o" style="background:transparent;color:#fff;border-color:#fff" onclick="go('how')">Cara Berdonasi</button></div>
+<div class="stats">
+<div class="stat"><b id="s1">-</b><span>Total Donasi</span></div>
+<div class="stat"><b id="s2">-</b><span>Jumlah Donatur</span></div>
+<div class="stat"><b id="s3">-</b><span>Kampanye Aktif</span></div>
+<div class="stat"><b id="s4">-</b><span>Penerima Manfaat</span></div>
+</div></div></div>
+<div class="wrap" style="padding-top:56px">
+<h2 class="t">Kampanye Pilihan</h2>
+<p class="sub">Kampanye yang sedang ramai dibantu minggu ini.</p>
+<div class="grid" id="featured"></div>
+</div>
+</section>
+
+<section class="page" id="campaigns"><div class="wrap">
+<h2 class="t">Kampanye Donasi</h2>
+<p class="sub">Cari kampanye berdasarkan nama atau kategori, lalu lihat detailnya sebelum berdonasi.</p>
+<div class="tools">
+<input id="q" type="search" placeholder="Cari kampanye atau penggalang..." aria-label="Cari kampanye" oninput="renderList()">
+<select id="cat" aria-label="Filter kategori" onchange="renderList()"></select>
+</div>
+<div class="grid" id="list"></div>
+</div></section>
+
+<section class="page" id="detail"><div class="wrap" id="detailBox"></div></section>
+
+<section class="page" id="donate"><div class="wrap"><div class="form">
+<button class="back" onclick="history.length&&go(cur?'detail':'campaigns')">← Kembali</button>
+<h2 class="t">Form Donasi</h2>
+<p class="sub" id="dTitle"></p>
+<div class="note"><b>Mode simulasi.</b> Tidak ada uang yang diproses. Data hanya disimpan di browser kamu.</div>
+<div id="df" novalidate>
+<div class="f" id="fc"><label for="dc">Kampanye</label><select id="dc" onchange="cur=+this.value||0;sumUp()"></select><div class="err">Pilih kampanye.</div></div>
+<div class="f" id="fa"><label>Nominal donasi</label>
+<div class="amts" id="amts"></div>
+<input id="custom" type="number" min="1000" step="1000" placeholder="Nominal lainnya (min. Rp1.000)" style="margin-top:10px;display:none" oninput="sumUp()">
+<div class="err" id="ea">Pilih nominal atau isi minimal Rp1.000.</div></div>
+<div class="f" id="fn"><label for="nm">Nama</label><input id="nm" placeholder="Nama lengkap"><div class="err">Nama minimal 3 huruf.</div></div>
+<div class="f" id="fe"><label for="em">Email</label><input id="em" type="email" placeholder="nama@email.com"><div class="err">Masukkan email yang valid.</div></div>
+<div class="f"><label for="ms">Pesan (opsional)</label><textarea id="ms" rows="3" maxlength="200" placeholder="Tulis doa atau dukungan..."></textarea></div>
+<div class="f" id="fp"><label for="pm">Metode pembayaran</label><select id="pm"><option value="">Pilih metode</option><option>Transfer Bank (Virtual Account)</option><option>E-Wallet</option><option>QRIS</option><option>Minimarket</option></select><div class="err">Pilih metode pembayaran.</div></div>
+<div class="f chk"><input type="checkbox" id="hd"><label for="hd" style="margin:0">Sembunyikan nama saya</label></div>
+<div class="sum" id="sum"></div>
+<button class="btn" style="width:100%;padding:14px" onclick="submitD()">Lanjutkan</button>
+</div></div></div></section>
+
+<section class="page" id="confirm"><div class="wrap"><div class="rcp box" id="rcp"></div></div></section>
+
+<section class="page" id="pay"><div class="wrap"><div class="form box" id="payBox"></div></div></section>
+
+<section class="page" id="hist"><div class="wrap"><div class="form">
+<h2 class="t">Riwayat Donasi</h2>
+<p class="sub">Donasi simulasi yang tersimpan di browser ini. Kamu juga bisa cek dengan nomor transaksi.</p>
+<div class="tools"><input id="ctx" placeholder="Nomor transaksi, contoh PK-XXXX-1234" aria-label="Nomor transaksi"><button class="btn" onclick="cekTx()">Cek Status</button></div>
+<div id="hl"></div></div></div></section>
+
+<section class="page" id="about"><div class="wrap two">
+<div><h2 class="t">Tentang PeduliKita</h2>
+<p>PeduliKita dibuat agar berbagi terasa mudah dan transparan. Kami menampilkan setiap kampanye lengkap dengan target, progres, dan penggalangnya, supaya kamu tahu ke mana bantuanmu pergi.</p>
+<p>Kami percaya bantuan kecil yang dikumpulkan bersama bisa mengubah hidup seseorang.</p></div>
+<div class="box"><h3 style="margin-bottom:16px">Bagaimana donasi digunakan</h3>
+<div class="use">
+<div><span>Disalurkan langsung ke penerima</span><b>90%</b></div><div class="bar"><i style="width:90%"></i></div>
+<div><span>Operasional platform</span><b>7%</b></div><div class="bar"><i style="width:7%"></i></div>
+<div><span>Laporan dan verifikasi</span><b>3%</b></div><div class="bar"><i style="width:3%"></i></div>
+</div><p style="margin-top:16px;color:var(--mute);font-size:.85rem">Angka di atas contoh untuk keperluan demo.</p></div>
+</div></section>
+
+<section class="page" id="how"><div class="wrap">
+<h2 class="t" style="text-align:center">Cara Berdonasi</h2>
+<p class="sub" style="margin:0 auto;text-align:center">Tiga langkah singkat untuk berbagi kebaikan.</p>
+<div class="steps">
+<div class="box step"><i>1</i><h3>Pilih kampanye</h3><p>Jelajahi kampanye dan baca detailnya.</p></div>
+<div class="box step"><i>2</i><h3>Masukkan nominal donasi</h3><p>Pilih nominal cepat atau tulis sendiri.</p></div>
+<div class="box step"><i>3</i><h3>Selesaikan pembayaran</h3><p>Pilih metode, lalu ikuti instruksi pembayaran.</p></div>
+</div>
+<div style="text-align:center;margin-top:32px"><button class="btn" onclick="go('campaigns')">Mulai Pilih Kampanye</button></div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 PeduliKita. Situs demo, tanpa pemrosesan pembayaran nyata.</span><span><button onclick="hist()">Riwayat Donasi</button> &nbsp; <button onclick="resetD()">Reset data simulasi</button></span></div></footer>
+<div id="toast" aria-live="polite"></div>
+
+<script>
+const C=[
+{id:0,t:"Bantu Pendidikan Anak di Daerah Terpencil",k:"Pendidikan",o:"Yayasan Cahaya Pelita",e:"📚",c:"#1f9d63,#0c4a30",r:68500000,g:100000000,d:412,dl:"2026-12-15",x:"Ribuan anak di pedalaman menempuh perjalanan berjam-jam untuk sampai ke sekolah, sering tanpa buku dan alat tulis. Donasimu akan dipakai untuk buku pelajaran, seragam, perlengkapan belajar, dan honor guru pendamping selama satu tahun ajaran."},
+{id:1,t:"Bantuan Korban Bencana",k:"Kemanusiaan",o:"Relawan Tanggap Peduli",e:"🏠",c:"#2f8f83,#0f4c5c",r:152000000,g:250000000,d:1204,dl:"2026-11-30",x:"Banjir bandang memaksa ratusan keluarga mengungsi. Dana terkumpul dipakai untuk logistik darurat, selimut, air bersih, obat-obatan, dan tenda hunian sementara sampai warga bisa kembali."},
+{id:2,t:"Pengobatan Anak Kurang Mampu",k:"Kesehatan",o:"Komunitas Sehat Bersama",e:"💊",c:"#4bab6f,#14683f",r:41200000,g:75000000,d:298,dl:"2026-12-05",x:"Beberapa anak dari keluarga prasejahtera membutuhkan operasi dan perawatan rutin yang tidak sepenuhnya ditanggung jaminan kesehatan. Dana dipakai untuk biaya rumah sakit, obat, dan transportasi keluarga."},
+{id:3,t:"Renovasi Sekolah",k:"Pendidikan",o:"Paguyuban Alumni SDN 3",e:"🏫",c:"#3d9970,#1b5e43",r:27800000,g:120000000,d:156,dl:"2027-01-20",x:"Atap bocor dan lantai retak membuat murid belajar dalam kondisi tidak aman. Renovasi mencakup atap, lantai, dua ruang kelas, serta toilet layak pakai."},
+{id:4,t:"Paket Makanan untuk Keluarga Membutuhkan",k:"Kemanusiaan",o:"Dapur Berbagi Nusantara",e:"🍚",c:"#6bb24a,#2d6a2e",r:19600000,g:30000000,d:337,dl:"2026-11-15",x:"Satu paket berisi beras, minyak, telur, dan kebutuhan pokok untuk satu keluarga selama dua minggu. Paket dibagikan langsung oleh relawan di lingkungan yang membutuhkan."},
+{id:5,t:"Penanaman Pohon untuk Lingkungan",k:"Lingkungan",o:"Gerakan Hijau Muda",e:"🌳",c:"#34a853,#0b5d3b",r:12400000,g:40000000,d:121,dl:"2027-02-28",x:"Kami menanam bibit pohon di lahan kritis dan bantaran sungai, lalu merawatnya bersama warga selama satu tahun agar tumbuh dan menahan longsor."}];
+// Foto kampanye: kata kunci untuk mencari foto sesuai tema (butuh internet).
+// Ingin foto sendiri? Ganti hasil im() dengan alamat gambar pilihanmu, misalnya https://.../foto.jpg
+const PH={0:"school,children,classroom",1:"flood,disaster,relief",2:"child,hospital,medicine",3:"school,building,classroom",4:"food,rice,charity",5:"tree,planting,forest"};
+const im=c=>`<img src="https://loremflickr.com/800/500/${PH[c.id]}?lock=${c.id+10}" alt="Foto kampanye: ${c.t}" loading="lazy" onerror="this.remove()">`;
+const AM=[10000,25000,50000,100000,250000,0];
+const $=s=>document.getElementById(s);
+const rp=n=>"Rp"+Math.round(n).toLocaleString("id-ID");
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+let cur=0,amt=null,D=[];
+try{D=JSON.parse(localStorage.getItem("pk_donasi")||"[]")}catch(e){D=[]}
+function save(){try{localStorage.setItem("pk_donasi",JSON.stringify(D))}catch(e){}}
+const paid=d=>!d.st||d.st==="paid";
+function raised(c){return c.r+D.filter(d=>d.cid===c.id&&paid(d)).reduce((a,d)=>a+d.amt,0)}
+function donors(c){return c.d+D.filter(d=>d.cid===c.id&&paid(d)).length}
+function pct(c){return Math.min(100,Math.round(raised(c)/c.g*100))}
+function days(c){return Math.max(0,Math.ceil((new Date(c.dl)-new Date())/864e5))}
+function toast(m,e){const t=document.createElement("div");t.className="toast"+(e?" e":"");t.textContent=m;$("toast").appendChild(t);setTimeout(()=>t.remove(),3200)}
+function go(p){
+ document.querySelectorAll(".page").forEach(s=>s.classList.toggle("on",s.id===p));
+ document.querySelectorAll(".links .l").forEach(b=>b.classList.toggle("on",b.dataset.p===p||(p==="detail"&&b.dataset.p==="campaigns")));
+ $("lk").classList.remove("open");
+ if(p==="home")stats();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function stats(){
+ $("s1").textContent=rp(C.reduce((a,c)=>a+raised(c),0));
+ $("s2").textContent=C.reduce((a,c)=>a+donors(c),0).toLocaleString("id-ID");
+ $("s3").textContent=C.length;
+ $("s4").textContent=(C.reduce((a,c)=>a+donors(c),0)*6).toLocaleString("id-ID")+"+";
+ $("featured").innerHTML=C.slice(0,3).map(card).join("");
+}
+function card(c){return `<article class="card"><div class="img" style="background:linear-gradient(135deg,${c.c})">${im(c)}<span class="tag">${c.k}</span>${c.e}</div>
+<div class="cb"><h3>${c.t}</h3><div class="by">oleh ${c.o}</div>
+<div class="bar" role="progressbar" aria-valuenow="${pct(c)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct(c)}%"></i></div>
+<div class="row"><span>Terkumpul <b>${rp(raised(c))}</b></span><span>${pct(c)}%</span></div>
+<div class="row"><span>Target ${rp(c.g)}</span><span>${donors(c)} donatur</span></div>
+<div class="btns"><button class="btn o" onclick="detail(${c.id})">Lihat Detail</button><button class="btn" onclick="donate(${c.id})">Donasi</button></div></div></article>`}
+function initCat(){
+ const ks=[...new Set(C.map(c=>c.k))];
+ $("cat").innerHTML='<option value="">Semua kategori</option>'+ks.map(k=>`<option>${k}</option>`).join("");
+}
+function renderList(){
+ const q=$("q").value.trim().toLowerCase(),k=$("cat").value;
+ const r=C.filter(c=>(!k||c.k===k)&&(!q||(c.t+c.o+c.k).toLowerCase().includes(q)));
+ $("list").innerHTML=r.length?r.map(card).join(""):'<div class="empty">Tidak ada kampanye yang cocok. Coba kata kunci lain atau pilih "Semua kategori".</div>';
+}
+function detail(id){
+ cur=id;const c=C[id];
+ $("detailBox").innerHTML=`<button class="back" onclick="go('campaigns')">← Kembali ke kampanye</button>
+<div class="det"><div><div class="img" style="background:linear-gradient(135deg,${c.c})">${im(c)}<span class="tag">${c.k}</span>${c.e}</div>
+<h2 class="t" style="margin-top:24px">${c.t}</h2><p style="color:var(--mute)">${c.x}</p>
+<div class="org"><i>${c.o[0]}</i><div><b>${c.o}</b><br><span class="by">Penggalang dana terverifikasi (data contoh)</span></div></div></div>
+<aside class="box"><div class="big">${rp(raised(c))}</div><div class="by">terkumpul dari target ${rp(c.g)}</div>
+<div class="bar" style="margin:14px 0"><i style="width:${pct(c)}%"></i></div>
+<div class="info"><div class="row"><span>Progres</span><b>${pct(c)}%</b></div><div class="row"><span>Jumlah donatur</span><b>${donors(c)}</b></div>
+<div class="row"><span>Batas waktu</span><b>${new Date(c.dl).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})} (${days(c)} hari lagi)</b></div></div>
+<button class="btn" style="width:100%;padding:14px" onclick="donate(${c.id})">Donasi Sekarang</button></aside></div>`;
+ go("detail");
+}
+function donate(id){
+ if(id!==null)cur=id;
+ $("dc").innerHTML='<option value="">Pilih kampanye</option>'+C.map(c=>`<option value="${c.id}">${c.t}</option>`).join("");
+ $("dc").value=id===null&&arguments.length&&cur===0&&!$("dc").dataset.u?"":cur;
+ if(id===null)$("dc").value="";
+ $("dTitle").textContent="Isi data di bawah, lalu cek ringkasan sebelum melanjutkan.";
+ amt=null;$("custom").style.display="none";$("custom").value="";
+ buildAmts();sumUp();go("donate");
+}
+function buildAmts(){
+ $("amts").innerHTML=AM.map(a=>`<button type="button" data-a="${a}" onclick="pick(${a})">${a?rp(a):"Nominal lainnya"}</button>`).join("");
+}
+function pick(a){
+ document.querySelectorAll("#amts button").forEach(b=>b.classList.toggle("on",+b.dataset.a===a));
+ const cu=$("custom");cu.style.display=a===0?"block":"none";
+ amt=a;if(a===0)cu.focus();sumUp();
+}
+function getAmt(){return amt===0?(+$("custom").value||0):(amt||0)}
+function sumUp(){
+ const c=C[+$("dc").value],a=getAmt(),s=$("sum");
+ if(!$("dc").value||!a){s.classList.remove("on");return}
+ s.classList.add("on");
+ s.innerHTML=`<b>Ringkasan donasi</b><div class="row" style="margin-top:8px"><span>Kampanye</span><b>${c.t}</b></div><div class="row"><span>Nominal</span><b>${rp(a)}</b></div>`;
+}
+function bad(id,f){$(id).classList.toggle("bad",f);return f}
+function submitD(){
+ const a=getAmt(),n=$("nm").value.trim(),e=$("em").value.trim();
+ const emOk=/^\S+@\S+\.\S+$/.test(e.replace(/\s+/g,""));
+ let x=[bad("fc",!$("dc").value),bad("fa",a<1000),bad("fn",n.length<3),bad("fe",!emOk),bad("fp",!$("pm").value)];
+ const nm=["Kampanye","Nominal","Nama","Email","Metode pembayaran"].filter((_,i)=>x[i]);
+ if(x.some(Boolean)){toast("Belum lengkap: "+nm.join(", ")+".",1);return}
+ const c=C[+$("dc").value];
+const tx="PK-"+Date.now().toString(36).toUpperCase()+"-"+Math.floor(1000+Math.random()*9000);
+ const d={tx,cid:c.id,amt:a,name:n,email:e.replace(/\s+/g,""),msg:$("ms").value.trim(),pay:$("pm").value,hide:$("hd").checked,at:new Date().toISOString(),st:"wait",exp:Date.now()+10*60000};
+ D.push(d);save();
+ ["nm","em","ms"].forEach(i=>$(i).value="");$("pm").value="";$("hd").checked=false;
+ toast("Donasi dicatat. Lanjutkan ke pembayaran simulasi.");showConfirm(tx);
+}
+const SL={wait:"Menunggu Pembayaran",paid:"Pembayaran Berhasil",fail:"Pembayaran Gagal",cancel:"Dibatalkan",exp:"Kedaluwarsa"};
+let tm=null;
+const find=tx=>D.find(d=>d.tx===tx);
+function chk(d){if(!d.st)d.st="paid";if(d.st==="wait"&&Date.now()>d.exp){d.st="exp";save()}return d}
+function showConfirm(tx){
+ const d=chk(find(tx)),c=C[d.cid];
+ const ttl=d.st==="paid"?"Terima kasih, donasimu tercatat":d.st==="wait"?"Donasi tercatat":SL[d.st];
+ const ic=d.st==="paid"?"✓":d.st==="wait"?"⏳":"!";
+ const act=d.st==="wait"?`<button class="btn" onclick="pay('${d.tx}')">Lanjut ke Pembayaran</button>`:d.st==="paid"?"":`<button class="btn" onclick="donate(${c.id})">Donasi Lagi</button>`;
+ $("rcp").innerHTML=`<div class="ok ${d.st}">${ic}</div><h2 class="t">${ttl}</h2><p class="by">Ini simulasi. Tidak ada uang yang diproses.</p>
+<dl><div><dt>Nama donatur</dt><dd>${d.hide?"Hamba Allah / Anonim":esc(d.name)}</dd></div><div><dt>Kampanye</dt><dd>${c.t}</dd></div>
+<div><dt>Nominal</dt><dd>${rp(d.amt)}</dd></div><div><dt>Metode pembayaran</dt><dd>${esc(d.pay)}</dd></div>
+<div><dt>Nomor transaksi (dummy)</dt><dd>${d.tx}</dd></div><div><dt>Status</dt><dd><span class="st ${d.st}">${SL[d.st]}</span></dd></div></dl>
+<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">${act}<button class="btn o" onclick="detail(${c.id})">Lihat Kampanye</button><button class="btn o" onclick="hist()">Riwayat Donasi</button></div>`;
+ go("confirm");
+}
+function rnd(seed){return()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296}
+function seedOf(t){return[...t].reduce((a,ch)=>(a*31+ch.charCodeAt(0))>>>0,7)}
+function qr(seed){
+ const r=rnd(seed),N=25;let s=`<svg class="qr" viewBox="0 0 ${N} ${N}" width="200" height="200" role="img" aria-label="QR contoh, tidak bisa dipindai"><rect width="${N}" height="${N}" fill="#fff"/>`;
+ const fin=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3"/>`;
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++){const f=(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);if(!f&&r()>.5)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}
+ return s+fin(0,0)+fin(N-7,0)+fin(0,N-7)+"</svg>";
+}
+function pay(tx){
+ const d=chk(find(tx));if(d.st!=="wait"){showConfirm(tx);return}
+ const c=C[d.cid],r=rnd(seedOf(tx)),dg=k=>Array.from({length:k},()=>Math.floor(r()*10)).join("");
+ const box=(l,v)=>`<div class="code"><span>${l}</span><b>${v}</b></div>`;
+ const ol=a=>`<ol class="how">${a.map(x=>`<li>${x}</li>`).join("")}</ol>`;
+ let body;
+ if(d.pay.startsWith("Transfer"))body=box("Nomor Virtual Account (dummy)","8808 "+dg(4)+" "+dg(4)+" "+dg(4))+ol(["Buka aplikasi bank contoh","Pilih Transfer, lalu Virtual Account","Masukkan nomor di atas dan periksa nominal","Kembali ke sini, lalu tekan tombol simulasi"]);
+ else if(d.pay==="QRIS")body=qr(seedOf(tx))+`<p class="by" style="text-align:center">QR contoh, tidak bisa dipindai.</p>`+ol(["Buka aplikasi pembayaran contoh","Pindai kode QR","Konfirmasi nominal","Tekan tombol simulasi di bawah"]);
+ else if(d.pay==="E-Wallet")body=`<div class="chips" id="chp">${["Dompet Biru","Dompet Hijau","Dompet Jingga"].map(w=>`<button type="button" onclick="wal(this)">${w}</button>`).join("")}</div><div id="wi">${box("Kode pembayaran (dummy)","EW-"+dg(8))}</div><p class="by" id="wt">Pilih dompet digital contoh untuk melanjutkan.</p>`;
+ else body=box("Kode pembayaran minimarket (dummy)","PK"+dg(10))+ol(["Datang ke kasir minimarket contoh","Sebutkan atau tunjukkan kode di atas","Bayar sesuai nominal","Tekan tombol simulasi di bawah"]);
+ $("payBox").innerHTML=`<div class="note"><b>SIMULASI.</b> Ini bukan pembayaran sungguhan. Tidak ada uang yang dipindahkan dan semua nomor hanya contoh.</div>
+<h2 class="t">Selesaikan pembayaran</h2><p class="by">${esc(d.pay)} - ${rp(d.amt)} untuk ${c.t}</p>
+<div class="timer"><span>Batas waktu bayar (simulasi 10 menit)</span><b id="tmr">--:--</b></div>${body}
+<div class="pbtn"><button class="btn" onclick="settle('${d.tx}','paid')">Simulasikan Pembayaran Berhasil</button><button class="btn o" onclick="settle('${d.tx}','fail')">Simulasikan Pembayaran Gagal</button><button class="btn o" style="color:var(--err);border-color:var(--err)" onclick="settle('${d.tx}','cancel')">Batalkan Donasi</button></div>`;
+ clearInterval(tm);
+ const f=l=>String(Math.floor(l/60000)).padStart(2,"0")+":"+String(Math.floor(l%60000/1000)).padStart(2,"0");
+ const tick=()=>{const t=$("tmr");if(!t||!$("pay").classList.contains("on")){clearInterval(tm);return}
+  const l=d.exp-Date.now();if(l<=0){clearInterval(tm);chk(d);toast("Waktu pembayaran habis.",1);showConfirm(d.tx);return}t.textContent=f(l)};
+ tick();tm=setInterval(tick,1000);go("pay");
+}
+function wal(b){document.querySelectorAll("#chp button").forEach(x=>x.classList.toggle("on",x===b));$("wt").textContent="Buka aplikasi "+b.textContent+" (contoh), masukkan kode di atas, lalu tekan tombol simulasi.";}
+function settle(tx,res){
+ clearInterval(tm);
+ $("payBox").innerHTML=`<div class="spin"></div><p style="text-align:center"><b>Memeriksa pembayaran (simulasi)...</b></p>`;
+ setTimeout(()=>{const d=find(tx);d.st=res;save();
+  toast(res==="paid"?"Pembayaran simulasi berhasil.":res==="fail"?"Pembayaran simulasi gagal.":"Donasi dibatalkan.",res!=="paid");
+  stats();renderList();showConfirm(tx)},1800);
+}
+function hist(){
+ const L=D.slice().reverse().map(chk);
+ $("hl").innerHTML=L.length?L.map(d=>`<div class="hi"><div><b>${C[d.cid].t}</b><small>${rp(d.amt)} - ${new Date(d.at).toLocaleString("id-ID")}<br>${d.tx}</small></div><div><span class="st ${d.st}">${SL[d.st]}</span> <button class="btn o" style="padding:7px 16px" onclick="${d.st==="wait"?"pay":"showConfirm"}('${d.tx}')">${d.st==="wait"?"Bayar":"Buka"}</button></div></div>`).join(""):'<div class="empty">Belum ada donasi. Pilih kampanye lalu mulai berdonasi.</div>';
+ go("hist");
+}
+function cekTx(){const t=$("ctx").value.trim().toUpperCase(),d=find(t);d?showConfirm(t):toast("Nomor transaksi tidak ditemukan di browser ini.",1)}
+function resetD(){if(confirm("Hapus semua data donasi simulasi di browser ini?")){D=[];save();stats();renderList();toast("Data simulasi dihapus.")}}
+initCat();renderList();stats();
+</script>
+</body>
+</html>
